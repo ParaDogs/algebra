@@ -43,6 +43,7 @@ vector<matrix> expansion(field F, polynom P){ //Расширение поля F 
     for(int i = 0; i < P.deg; i++) E.table[i][i] = 1;
     for(int i = 0; i < (int)pow(F.deg, P.deg); i++){
         result.push_back(E*(i%F.deg)+(*(P.mat)^((int)(i/(int)pow(F.deg, P.deg-1))%F.deg))*((int)(i/F.deg)%F.deg));
+        //Это я в уме делал (чсв)
         //Это триумф чистого разума
     }
     return result;

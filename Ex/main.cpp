@@ -48,7 +48,7 @@ vector<matrix> expansion(field F, polynom P){ //Расширение поля F 
 
 
 int main(){
-    field F3(N); //Изначальное поле
+    field F5(N); //Изначальное поле
     polynom A(D, 2, 0, 3); //Сопр. матрица неприводимого полинома 3 степени над F5
 
 

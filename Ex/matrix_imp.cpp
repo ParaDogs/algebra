@@ -68,6 +68,20 @@ matrix operator * (matrix m1, int a){
     return result;
 }
 
+matrix operator ^ (matrix m1, int a){
+    matrix result(m1.rows);
+    result = m1;
+    if(a == 0){
+        matrix E(m1.rows);
+        for(int i = 0; i < m1.rows; i++) E.table[i][i] = 1;
+        return E;
+    }
+    for(int i = 0; i < a; i++){
+        result = result * m1;
+    }
+    return result;
+}
+
 float matrix::det(){
     if(this->rows != this->cols) throw -1;
     else if(this->cols != 1){

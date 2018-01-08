@@ -4,16 +4,22 @@
 #include <math.h>
 #include "matrix_lib.h"
 
-matrix::matrix(int n, int m){
+int toMod(int num, int _mod){
+    return num % _mod;
+}
+
+matrix::matrix(int n, int m, int _mod){
     rows = n; cols = m;
+    mod = _mod;
     table = new int*[rows];
     for (int i = 0; i < rows; i++)
         table[i] = new int[cols];
     this->fill(0, 1);
 }
 
-matrix::matrix(int n){
+matrix::matrix(int n, int _mod){
     rows = n; cols = n;
+    mod = _mod;
     table = new int*[rows];
     for (int i = 0; i < rows; i++)
         table[i] = new int[cols];
@@ -39,10 +45,10 @@ void matrix::print(){
 matrix operator + (matrix m1, matrix m2){
     if((m1.cols != m2.cols)||(m1.rows != m2.rows)) throw -1;
     else{
-        matrix result(m1.rows, m1.cols);
+        matrix result(m1.rows, m1.cols, m1.mod);
         for(int i = 0; i < result.rows; i++)
             for(int j = 0; j < result.cols; j++)
-                result.table[i][j] = m1.table[i][j] + m2.table[i][j];
+                result.table[i][j] = toMod(m1.table[i][j] + m2.table[i][j], m1.mod);
         return result;
     }
 }
@@ -50,34 +56,37 @@ matrix operator + (matrix m1, matrix m2){
 matrix operator * (matrix m1, matrix m2){
     if(m1.cols != m2.rows) throw -1;
     else{
-        matrix result(m1.rows, m2.cols);
+        matrix result(m1.rows, m2.cols, m1.mod);
         result.fill(0, 1);
         for(int i = 0; i < result.rows; i++)
             for(int j = 0; j < result.cols; j++)
                 for(int k = 0; k < m1.cols; k++)
                     result.table[i][j] += m1.table[i][k] * m2.table[k][j];
+        for(int i = 0; i < result.rows; i++)
+            for(int j = 0; j < result.cols; j++)
+                result.table[i][j] = toMod(result.table[i][j], m1.mod);
         return result;
     }
 }
 
 matrix operator * (matrix m1, int a){
-    matrix result(m1.rows, m1.cols);
+    matrix result(m1.rows, m1.cols, m1.mod);
     for(int i = 0; i < result.rows; i++)
         for(int j = 0; j < result.cols; j++)
-            result.table[i][j] = m1.table[i][j] * a;
+            result.table[i][j] = toMod(m1.table[i][j] * a, m1.mod);
     return result;
 }
 
 matrix operator ^ (matrix m1, int a){
-    matrix result(m1.rows);
+    matrix result(m1.rows, m1.mod);
     result = m1;
     if(a == 0){
-        matrix E(m1.rows);
+        matrix E(m1.rows, m1.mod);
         for(int i = 0; i < m1.rows; i++) E.table[i][i] = 1;
         return E;
     }
-    for(int i = 0; i < a; i++){
-        result = result * m1;
+    for(int i = 0; i < a-1; i++){
+        result = m1 * result;
     }
     return result;
 }
@@ -115,7 +124,7 @@ matrix matrix::minor(int l, int k){
 }
 
 matrix matrix::uni(){
-    matrix result(this->rows, this->cols);
+    matrix result(this->rows, this->cols, this->mod);
     for(int i = 0; i < result.rows; i++)
         for(int j = 0; j < result.cols; j++)
             result.table[i][j] = this->minor(i, j).det() * pow(-1, i + j);
@@ -123,7 +132,7 @@ matrix matrix::uni(){
 }
 
 matrix matrix::trans(){
-    matrix result(this->cols, this->rows);
+    matrix result(this->cols, this->rows, this->mod);
     for(int i = 0; i < result.rows; i++)
         for(int j = 0; j < result.cols; j++)
             result.table[i][j] = this->table[j][i];

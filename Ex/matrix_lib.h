@@ -8,9 +8,10 @@
 class matrix{
     public:
         int rows, cols;
+        int mod;
         int** table;
-        matrix(int n, int m);
-        matrix(int n);
+        matrix(int n, int m, int _mod);
+        matrix(int n, int _mod);
         void fill(int a, int b);
         void print();
         friend matrix operator + (matrix m1, matrix m2);

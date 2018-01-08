@@ -33,9 +33,6 @@ struct field{ //Поле остатков по модулю простого ч�
     int* elements;
     field(int _deg){
         deg = _deg;
-        elements = new int[deg];
-        for(int i = 0; i < deg; i++)
-            elements[i] = i;
     }
 };
 
@@ -58,7 +55,7 @@ int main(){
     vector<matrix> exF5 = expansion(F5, A);
 
     for(int i = 0; i < (int)pow(F5.deg, A.deg)+1; i++){
-        printf("%d %d %d\n", i%F5.deg, (int)(i/F5.deg)%F5.deg, (int)(i/(F5.deg*F5.deg))%F5.deg);
+        printf("%d - %d %d %d\n", i, i%F5.deg, (int)(i/F5.deg)%F5.deg, (int)(i/(F5.deg*F5.deg))%F5.deg);
         exF5[i].print();
     }
 

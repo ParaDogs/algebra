@@ -16,9 +16,7 @@ bool chekPrimitive(vector<matrix> F, matrix m){
     int j;
     for(int i = 1; i < F.size(); i++){
         j = 1;
-        while(!(F[i] == (m^j)) && (j < F.size())){
-            j++;
-        }
+        while(!(F[i] == (m^j)) && (j < F.size())) j++;
         if(j == F.size()) return false;
     }
     return true;

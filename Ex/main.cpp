@@ -30,7 +30,6 @@ struct polynom{ //Полином, характеризующийся своей 
 
 struct field{ //Поле остатков по модулю простого числа
     int deg;
-    int* elements;
     field(int _deg){
         deg = _deg;
     }

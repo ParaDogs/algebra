@@ -42,6 +42,15 @@ void matrix::print(){
     printf("\n");
 }
 
+bool operator == (matrix m1, matrix m2){
+    if((m1.cols != m2.cols)||(m1.rows != m2.rows)) return false;
+    for(int i = 0; i < m1.rows; i++)
+        for(int j = 0; j < m1.cols; j++)
+            if(m1.table[i][j] != m2.table[i][j]) return false;
+    return true;
+
+}
+
 matrix operator + (matrix m1, matrix m2){
     if((m1.cols != m2.cols)||(m1.rows != m2.rows)) throw -1;
     else{

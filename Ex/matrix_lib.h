@@ -14,6 +14,7 @@ class matrix{
         matrix(int n, int _mod);
         void fill(int a, int b);
         void print();
+        friend bool operator == (matrix m1, matrix m2);
         friend matrix operator + (matrix m1, matrix m2);
         friend matrix operator * (matrix m1, matrix m2);
         friend matrix operator * (matrix m1, int a);

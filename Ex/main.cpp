@@ -12,7 +12,17 @@ int negative(int a){
     return (T - a) % T;
 }
 
-//bool checkPrime
+bool chekPrimitive(vector<matrix> F, matrix m){
+    int j;
+    for(int i = 1; i < F.size(); i++){
+        j = 1;
+        while(!(F[i] == (m^j)) && (j < F.size())){
+            j++;
+        }
+        if(j == F.size()) return false;
+    }
+    return true;
+}
 
 struct polynom{ //Полином, характеризующийся своей сопровождающей матрицей
     int deg;
@@ -52,12 +62,7 @@ int main(){
     field F5(N); //Изначальное поле
     polynom A(D, 2, 0, 3); //Сопр. матрица неприводимого полинома 3 степени над F5. Сюда просто вписываем последние 3 коэф. вашего полинома
     vector<matrix> exF5 = expansion(F5, A);
-
-    for(int i = 0; i < (int)pow(F5.deg, A.deg)+1; i++){
-        printf("%d - %d %d %d\n", i, i%F5.deg, (int)(i/F5.deg)%F5.deg, (int)(i/(F5.deg*F5.deg))%F5.deg);
-        exF5[i].print();
-    }
-
+    printf("%d\n", chekPrimitive(exF5, *(A.mat)));
 
     return 0;
 }

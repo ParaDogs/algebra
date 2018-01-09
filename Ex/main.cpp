@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "matrix_lib.h"
-#include <cmath>
+//#include <cmath>
 #include <vector>
 #define N 5
 #define D 3
@@ -16,7 +16,7 @@ bool checkPrimitive(vector<matrix> F, matrix m){
     int j;
     for(int i = 1; i < F.size(); i++){
         j = 1;
-        while(!(F[i] == (m^j)) && (j < F.size())) j++;
+        while(!(F[i] == (m^j)) && (j <= F.size())) j++;
         if(j == F.size()) return false;
     }
     return true;
@@ -47,7 +47,7 @@ vector<matrix> expansion(field F, polynom P){ //Расширение поля F 
     vector<matrix> result;
     matrix E(P.deg, P.mat->mod);
     for(int i = 0; i < P.deg; i++) E.table[i][i] = 1;
-    for(int i = 0; i < (int)pow(F.deg, P.deg) + 1; i++)
+    for(int i = 0; i < (int)pow(F.deg, P.deg); i++)
         result.push_back(E*(i%F.deg) + ((*(P.mat))*((int)(i/F.deg)%F.deg)) + (((*(P.mat))^2)*((int)(i/(F.deg*F.deg))%F.deg)));
         //Тут происходит формирование поля расширения как всевозможных комбинаций корня и элементов поля
         //В данном случае вот так: E + A + A^2 (каждое слагаемое с коэффициентом от 0 до 5. Итого 5^3 элементов в поле)
@@ -60,7 +60,11 @@ int main(){
     field F5(N); //Изначальное поле
     polynom A(D, 2, 0, 3); //Сопр. матрица неприводимого полинома 3 степени над F5. Сюда просто вписываем последние 3 коэф. вашего полинома
     vector<matrix> exF5 = expansion(F5, A);
-    printf("%d\n", checkPrimitive(exF5, *(A.mat)));
+//    printf("%d\n", checkPrimitive(exF5, *(A.mat)));
+
+
+    bool b = checkPrimitive(exF5, *(A.mat));
+    cout << ( (b) ? "true" : "false" ) << endl;
 
     return 0;
 }

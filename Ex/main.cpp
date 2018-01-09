@@ -12,7 +12,7 @@ int negative(int a){
     return (T - a) % T;
 }
 
-bool chekPrimitive(vector<matrix> F, matrix m){
+bool checkPrimitive(vector<matrix> F, matrix m){
     int j;
     for(int i = 1; i < F.size(); i++){
         j = 1;
@@ -60,7 +60,7 @@ int main(){
     field F5(N); //Изначальное поле
     polynom A(D, 2, 0, 3); //Сопр. матрица неприводимого полинома 3 степени над F5. Сюда просто вписываем последние 3 коэф. вашего полинома
     vector<matrix> exF5 = expansion(F5, A);
-    printf("%d\n", chekPrimitive(exF5, *(A.mat)));
+    printf("%d\n", checkPrimitive(exF5, *(A.mat)));
 
     return 0;
 }

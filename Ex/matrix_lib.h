@@ -20,7 +20,7 @@ class matrix{
         friend matrix operator * (matrix m1, int a);
         friend matrix operator ^ (matrix m1, int a);
         float det();
-        matrix minor(int l, int k);
+//        matrix minor(int l, int k);
         matrix uni();
         matrix trans();
         matrix invert();

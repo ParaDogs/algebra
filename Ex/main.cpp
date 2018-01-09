@@ -16,7 +16,7 @@ bool checkPrimitive(vector<matrix> F, matrix m){
     int j;
     for(int i = 1; i < F.size(); i++){
         j = 1;
-        while(!(F[i] == (m^j)) && (j <= F.size())) j++;
+        while((j < F.size()) && !(F[i] == (m^j))) j++;
         if(j == F.size()) return false;
     }
     return true;
@@ -25,13 +25,12 @@ bool checkPrimitive(vector<matrix> F, matrix m){
 struct polynom{ //Полином, характеризующийся своей сопровождающей матрицей
     int deg;
     matrix* mat;
-    polynom(int d, ...){
-        int i(d-1); int* p = &d;
+    polynom(int d, vector<int> v){
         this->deg = d;
         this->mat = new matrix(d, N);
-        while(i >= 0){
-            this->mat->table[i][i-1] = 1;
-            this->mat->table[i--][d-1] = negative<N>(*(++p));
+        for (int i = d-1; i >= 0; --i) {
+            if(i != 0) this->mat->table[i][i-1] = 1;
+            this->mat->table[i][d-1] = negative<N>(v[d-i-1]);
         }
     }
 };
@@ -58,13 +57,17 @@ vector<matrix> expansion(field F, polynom P){ //Расширение поля F 
 
 int main(){
     field F5(N); //Изначальное поле
-    polynom A(D, 2, 0, 3); //Сопр. матрица неприводимого полинома 3 степени над F5. Сюда просто вписываем последние 3 коэф. вашего полинома
+    vector<int> v = {2, 0, 3};
+    polynom A(D, v); //Сопр. матрица неприводимого полинома 3 степени над F5. Сюда просто вписываем последние 3 коэф. вашего полинома
     vector<matrix> exF5 = expansion(F5, A);
-//    printf("%d\n", checkPrimitive(exF5, *(A.mat)));
 
-
-    bool b = checkPrimitive(exF5, *(A.mat));
-    cout << ( (b) ? "true" : "false" ) << endl;
+    int c = 0;
+    for(int i = 0; i < 125; ++i){
+        bool b = checkPrimitive(exF5, exF5[i]);
+        cout << ( b ? "true" : "false" ) << endl;
+        if (b) c++;
+    }
+    cout << c << endl;
 
     return 0;
 }

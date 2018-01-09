@@ -100,45 +100,45 @@ matrix operator ^ (matrix m1, int a){
     return result;
 }
 
-float matrix::det(){
-    if(this->rows != this->cols) throw -1;
-    else if(this->cols != 1){
-        int result(0);
-        for(int i = 0; i < this->rows; i+=2)
-            result += this->table[0][i] * this->minor(0, i).det();
-        for(int i = 1; i < this->rows; i+=2)
-            result -= this->table[0][i] * this->minor(0, i).det();
-        return result;
-    }else return this->table[0][0];
-}
+//float matrix::det(){
+//    if(this->rows != this->cols) throw -1;
+//    else if(this->cols != 1){
+//        int result(0);
+//        for(int i = 0; i < this->rows; i+=2)
+//            result += this->table[0][i] * this->minor(0, i).det();
+//        for(int i = 1; i < this->rows; i+=2)
+//            result -= this->table[0][i] * this->minor(0, i).det();
+//        return result;
+//    }else return this->table[0][0];
+//}
 
-matrix matrix::minor(int l, int k){
-    if((l > this->rows-1)||(k > this->cols-1)) throw -1;
-    else{
-        matrix result(this->rows-1, this->cols-1);
-        for(int i = 0; i < l; i++){
-            for(int j = 0; j < k; j++)
-                result.table[i][j] = this->table[i][j];
-            for(int j = k + 1; j < this->cols; j++)
-                result.table[i][j-1] = this->table[i][j];
-        }
-        for(int i = l + 1; i < this->rows; i++){
-            for(int j = 0; j < k; j++)
-                result.table[i-1][j] = this->table[i][j];
-            for(int j = k + 1; j < this->cols; j++)
-                result.table[i-1][j-1] = this->table[i][j];
-        }
-        return result;
-    }
-}
+//matrix matrix::minor(int l, int k){
+//    if((l > this->rows-1)||(k > this->cols-1)) throw -1;
+//    else{
+//        matrix result(this->rows-1, this->cols-1);
+//        for(int i = 0; i < l; i++){
+//            for(int j = 0; j < k; j++)
+//                result.table[i][j] = this->table[i][j];
+//            for(int j = k + 1; j < this->cols; j++)
+//                result.table[i][j-1] = this->table[i][j];
+//        }
+//        for(int i = l + 1; i < this->rows; i++){
+//            for(int j = 0; j < k; j++)
+//                result.table[i-1][j] = this->table[i][j];
+//            for(int j = k + 1; j < this->cols; j++)
+//                result.table[i-1][j-1] = this->table[i][j];
+//        }
+//        return result;
+//    }
+//}
 
-matrix matrix::uni(){
-    matrix result(this->rows, this->cols, this->mod);
-    for(int i = 0; i < result.rows; i++)
-        for(int j = 0; j < result.cols; j++)
-            result.table[i][j] = this->minor(i, j).det() * pow(-1, i + j);
-    return result;
-}
+//matrix matrix::uni(){
+//    matrix result(this->rows, this->cols, this->mod);
+//    for(int i = 0; i < result.rows; i++)
+//        for(int j = 0; j < result.cols; j++)
+//            result.table[i][j] = this->minor(i, j).det() * pow(-1, i + j);
+//    return result;
+//}
 
 matrix matrix::trans(){
     matrix result(this->cols, this->rows, this->mod);
@@ -148,7 +148,7 @@ matrix matrix::trans(){
     return result;
 }
 
-matrix matrix::invert(){
-    if(this->det() == 0) throw -1;
-    else return this->uni().trans() * (1/this->det());
-}
+//matrix matrix::invert(){
+//    if(this->det() == 0) throw -1;
+//    else return this->uni().trans() * (1/this->det());
+//}

@@ -12,16 +12,11 @@ int negative(int a){
     return (T - a) % T;
 }
 
-bool chekPrimitive(vector<matrix> F, matrix m){
-    int j;
-    for(int i = 1; i < F.size(); i++){
-        j = 1;
-        while(!(F[i] == (m^j)) && (j < F.size())){
-            j++;
-        }
-        if(j == F.size()) return false;
-    }
-    return true;
+bool checkPrimitive(vector<matrix> F, matrix m){
+    int j = 1;
+    while((j < F.size()) && !(F[1] == (m^j))) j++;
+    if(j == F.size() - 1) return true;
+    return false;
 }
 
 struct polynom{ //Полином, характеризующийся своей сопровождающей матрицей
@@ -49,11 +44,13 @@ vector<matrix> expansion(field F, polynom P){ //Расширение поля F 
     vector<matrix> result;
     matrix E(P.deg, P.mat->mod);
     for(int i = 0; i < P.deg; i++) E.table[i][i] = 1;
-    for(int i = 0; i < (int)pow(F.deg, P.deg) + 1; i++)
-        result.push_back(E*(i%F.deg) + ((*(P.mat))*((int)(i/F.deg)%F.deg)) + (((*(P.mat))^2)*((int)(i/(F.deg*F.deg))%F.deg)));
-        //Тут происходит формирование поля расширения как всевозможных комбинаций корня и элементов поля
-        //В данном случае вот так: E + A + A^2 (каждое слагаемое с коэффициентом от 0 до 5. Итого 5^3 элементов в поле)
-        //Нужен(чтобы было прикольнее) более общий случай: E + A + A^2 + .. + A^(n-1), где n -- степень полинома
+    matrix Pt1 = *(P.mat);
+    matrix Pt2 = (*(P.mat))^2;
+    int d = F.deg;
+
+    for(int i = 0; i < (int)pow(d, P.deg) + 1; i++)
+        result.push_back(E*(i%d) + Pt1*((i/d)%d) + Pt2*((i/(d*d))%d));
+
     return result;
 }
 
@@ -62,7 +59,15 @@ int main(){
     field F5(N); //Изначальное поле
     polynom A(D, 2, 0, 3); //Сопр. матрица неприводимого полинома 3 степени над F5. Сюда просто вписываем последние 3 коэф. вашего полинома
     vector<matrix> exF5 = expansion(F5, A);
-    printf("%d\n", chekPrimitive(exF5, *(A.mat)));
 
+    int c(0);
+    for(int i = 0; i < 125; i++){
+        bool p = checkPrimitive(exF5, exF5[i]);
+        //exF5[i].print();
+        printf("%s\n", (p ? "true" : "false"));
+        if(p) c++;
+    }
+    printf("%d\n", c);
+    printf("Polinomial root is primitive? %s\n", (checkPrimitive(exF5, *(A.mat)) ? "true" : "false"));
     return 0;
 }
